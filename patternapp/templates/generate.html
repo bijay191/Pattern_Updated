@@ -1,21 +1,39 @@
-<h2>Generate Pattern</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pattern Generator</title>
+</head>
+<body>
+
+<h2>Pattern & Layout Finder</h2>
 
 <form method="POST">
     {% csrf_token %}
-    <select name="file">
+
+    <label>Select File:</label>
+    <select name="file_id">
         {% for f in files %}
-            <option value="{{ f.id }}">{{ f.name }}</option>
+            <option value="{{ f.id }}">
+                {{ f.filename }}
+            </option>
         {% endfor %}
     </select>
+
+    <br><br>
     <button type="submit">Generate</button>
 </form>
 
-{% if result %}
-    <h3>Result</h3>
-    <p><b>Filename:</b> {{ result.filename }}</p>
-    <p><b>Payer:</b> {{ result.payer }}</p>
-    <p><b>Type:</b> {{ result.type }}</p>
-    <p><b>Format:</b> {{ result.format }}</p>
-    <p><b>Pattern:</b> {{ result.pattern }}</p>
-    <p><b>Layout ID:</b> {{ result.layout_id }}</p>
+<hr>
+
+{% if generated_pattern %}
+    <h3>Generated Pattern:</h3>
+    <p>{{ generated_pattern }}</p>
 {% endif %}
+
+{% if layout_id %}
+    <h3>Layout ID:</h3>
+    <p>{{ layout_id }}</p>
+{% endif %}
+
+</body>
+</html>
