@@ -12,12 +12,12 @@ def generate_pattern(filename):
         if fmt == "Meritian_ELIG":
             parts = filename.split('.')
             policy = parts[4]
-            return f"ELIG.ABSTRACT.VINTAGE.ELIG.{policy}.[0-9]+"
+            return f"ELIG.ABSTRACT.VERSCEND.ELIG.{policy}.[0-9]+"
 
         elif fmt == "Meritian_CLAIMS":
             parts = filename.split('.')
             policy = parts[4]
-            return f"ICD10.STANSMITH.CLAIMS.ABSTRACT.{policy}.[0-9]+"
+            return f"ICD10.STANDARD.CLAIMS.ABSTRACT.{policy}.[0-9]{8}"
 
     # ---------- UHC ----------
     elif payer == "UHC":

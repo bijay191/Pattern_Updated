@@ -1,26 +1,57 @@
 from django.db import models
 
-class FileName(models.Model):
-    name = models.CharField(max_length=255)
+# class FileName(models.Model):
+#     name = models.CharField(max_length=255)
+
+#     def __str__(self):
+#         return self.name
+
+
+# class CentralizedPattern(models.Model):
+#     pattern = models.TextField()
+#     layout_id = models.IntegerField()
+
+#     def __str__(self):
+#         return f"{self.pattern} -> {self.layout_id}"
+
+
+# class GeneratedPattern(models.Model):
+#     file = models.ForeignKey(FileName, on_delete=models.CASCADE)
+#     suggested_pattern = models.TextField()
+#     generic_pattern = models.TextField()
+#     layout_id = models.IntegerField(null=True, blank=True)
+#     payer = models.CharField(max_length=20, null=True)
+#     data_type = models.CharField(max_length=20, null=True)
+#     file_format = models.CharField(max_length=50, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+class TableLog(models.Model):
+    filename = models.CharField(max_length=500, unique=True)
+    client = models.CharField(max_length=100)
+    regex = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.name
-
-
-class CentralizedPattern(models.Model):
-    pattern = models.TextField()
-    layout_id = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.pattern} -> {self.layout_id}"
+        return self.filename
 
 
 class GeneratedPattern(models.Model):
-    file = models.ForeignKey(FileName, on_delete=models.CASCADE)
-    suggested_pattern = models.TextField()
-    generic_pattern = models.TextField()
-    layout_id = models.IntegerField(null=True, blank=True)
-    payer = models.CharField(max_length=20, null=True)
-    data_type = models.CharField(max_length=20, null=True)
-    file_format = models.CharField(max_length=50, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    filename = models.CharField(max_length=500, unique=True)
+    client = models.CharField(max_length=100)
+    regex = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.filename
+
+
+class PatternLayoutMapping(models.Model):
+    payor = models.CharField(max_length=100)
+    layout_id = models.IntegerField()
+    datatype = models.CharField(max_length=100)
+    employergroup = models.CharField(max_length=100)
+    layouttype = models.CharField(max_length=100)
+    pattern = models.CharField(max_length=500)
+    addeddate = models.DateField(auto_now_add=True)
+    modifieddate = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.payor} - {self.layout_id}"

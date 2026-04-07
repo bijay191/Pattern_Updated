@@ -5,6 +5,7 @@ from .matcher import find_layout_id
 
 
 def process_filename(filename):
+    filename = filename.lower()
     payer = detect_payer(filename)
     dtype = detect_data_type(filename)
     fmt = detect_format(filename)
