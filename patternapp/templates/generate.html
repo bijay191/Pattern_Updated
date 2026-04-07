@@ -1,0 +1,21 @@
+<h2>Generate Pattern</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <select name="file">
+        {% for f in files %}
+            <option value="{{ f.id }}">{{ f.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Generate</button>
+</form>
+
+{% if result %}
+    <h3>Result</h3>
+    <p><b>Filename:</b> {{ result.filename }}</p>
+    <p><b>Payer:</b> {{ result.payer }}</p>
+    <p><b>Type:</b> {{ result.type }}</p>
+    <p><b>Format:</b> {{ result.format }}</p>
+    <p><b>Pattern:</b> {{ result.pattern }}</p>
+    <p><b>Layout ID:</b> {{ result.layout_id }}</p>
+{% endif %}
