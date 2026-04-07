@@ -26,13 +26,23 @@
 <hr>
 
 {% if generated_pattern %}
-    <h3>Generated Pattern:</h3>
-    <p>{{ generated_pattern }}</p>
-{% endif %}
+<hr>
 
-{% if layout_id %}
-    <h3>Layout ID:</h3>
-    <p>{{ layout_id }}</p>
+<h3>Output:</h3>
+
+<div style="border:1px solid #ccc; padding:15px; width:60%; background:#f9f9f9;">
+
+    <p><strong>Filename:</strong><br>
+    {{ selected_filename }}</p>
+
+    <p><strong>Generated Pattern:</strong><br>
+    {{ generated_pattern }}</p>
+
+    <p><strong>Layout ID:</strong><br>
+    {{ layout_id }}</p>
+
+</div>
+
 {% endif %}
 
 </body>

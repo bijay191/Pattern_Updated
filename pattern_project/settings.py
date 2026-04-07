@@ -1,19 +1,15 @@
 from pathlib import Path
 
-# Base directory
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-change-this-key'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 
-# APPLICATIONS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -26,7 +22,6 @@ INSTALLED_APPS = [
 ]
 
 
-# MIDDLEWARE (REQUIRED for admin)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -38,11 +33,9 @@ MIDDLEWARE = [
 ]
 
 
-# ROOT URL CONFIG
 ROOT_URLCONF = 'pattern_project.urls'
 
 
-# TEMPLATES (REQUIRED for admin)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -60,11 +53,10 @@ TEMPLATES = [
 ]
 
 
-# WSGI
 WSGI_APPLICATION = 'pattern_project.wsgi.application'
 
 
-# DATABASE (SQL SERVER)
+
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',

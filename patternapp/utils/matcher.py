@@ -1,17 +1,22 @@
 import re
 from patternapp.models import PatternLayoutMapping
 
-
 def tokenize(pattern):
-    if not pattern:  
+    if not pattern:
         return set()
 
     pattern = pattern.lower()
 
     # remove regex parts
-    pattern = re.sub(r"\[0-9\]\+|\[0-9\]\{\d+\}", "", pattern)
+    pattern = re.sub(r"\[[0-9]+\]|\[0-9\]\{\d+\}", "", pattern)
 
-    # remove special characters
+    if "verscend" in pattern or "standard" in pattern:
+        pattern = re.sub(r"\d+", "", pattern)
+
+    else:
+        pattern = re.sub(r"\b\d{6,}\b", "", pattern)
+
+    # remove special chars
     pattern = re.sub(r"[^a-z0-9]+", " ", pattern)
 
     return set(pattern.split())
@@ -28,6 +33,26 @@ def similarity_score(p1, p2):
 
 
 def find_layout_id(generated_pattern):
+    if not generated_pattern:
+        return None
+
+    pattern_lower = generated_pattern.lower()
+
+    # ---------------- MERITAIN DIRECT MATCH ----------------
+    if "verscend" in pattern_lower:
+        for entry in PatternLayoutMapping.objects.all():
+            db_pattern = entry.pattern.lower()
+
+            # remove numbers from both
+            gen_clean = re.sub(r"\d+", "", pattern_lower)
+            db_clean = re.sub(r"\d+", "", db_pattern)
+
+            if gen_clean == db_clean:
+                return entry.layout_id
+
+        return None
+
+    # ---------------- UHC SIMILARITY MATCH ----------------
     best_score = 0
     best_layout = None
 
@@ -40,8 +65,7 @@ def find_layout_id(generated_pattern):
             best_score = score
             best_layout = entry.layout_id
 
-    # threshold to avoid wrong matches
-    if best_score > 0.4:
+    if best_score > 0.3:
         return best_layout
 
     return None

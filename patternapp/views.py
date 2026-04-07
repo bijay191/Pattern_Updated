@@ -18,23 +18,22 @@ def generate_regex(request):
             filename = file_record.filename
             client = file_record.client
 
-            # STEP 1: Generate pattern
             generated_pattern = generate_pattern(filename)
 
-            # STEP 2: Find layout
             layout_id = find_layout_id(generated_pattern)
 
-            # ✅ STEP 3: SAVE TO DB
-            GeneratedPattern.objects.update_or_create(
-                filename=filename,
-                defaults={
-                    "client": client,
-                    "regex": generated_pattern
-                }
-            )
+            if generated_pattern:
+                GeneratedPattern.objects.update_or_create(
+                    filename=filename,
+                    defaults={
+                        "client": client,
+                        "regex": generated_pattern
+                    }
+                )
 
     return render(request, "generate.html", {
         "files": files,
         "generated_pattern": generated_pattern,
-        "layout_id": layout_id
+        "layout_id": layout_id,
+        "selected_filename": filename if request.method == "POST" else None
     })
