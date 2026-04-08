@@ -75,7 +75,7 @@ def detect_format(filename):
     if f.startswith("elig."):
         return "Meritian_ELIG"
 
-    if "claims.extract" in f:
+    if f.startswith("icd10.standard.claims.extract"):
         return "Meritian_CLAIMS"
 
     if "split" in f and "medclm" in f:

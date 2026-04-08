@@ -52,3 +52,5 @@ def generate_pattern(filename):
 
         elif fmt == "ELIG_FORMAT_1":
             return f"{prefix}_UHC_{policy}_ELIGIBILITIES_[0-9]+_[0-9]+_SPLIT.txt"
+
+    return "UNKNOWN" 

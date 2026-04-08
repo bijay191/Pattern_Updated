@@ -12,7 +12,7 @@ def generate_regex(request):
 
     if request.method == "POST":
         file_id = request.POST.get("file_id")
-
+        
         if file_id:
             file_record = TableLog.objects.get(id=file_id)
             filename = file_record.filename
@@ -20,16 +20,43 @@ def generate_regex(request):
 
             generated_pattern = generate_pattern(filename)
 
-            layout_id = find_layout_id(generated_pattern)
+            # 🔥 If pattern fails → everything UNKNOWN
+            if not generated_pattern or generated_pattern == "UNKNOWN":
+                generated_pattern = "UNKNOWN"
+                layout_id = "UNKNOWN"
 
-            if generated_pattern:
-                GeneratedPattern.objects.update_or_create(
-                    filename=filename,
-                    defaults={
-                        "client": client,
-                        "regex": generated_pattern
-                    }
-                )
+            else:
+                layout_id = find_layout_id(generated_pattern)
+
+                if not layout_id:
+                    layout_id = "UNKNOWN"
+
+                # ✅ Save only valid patterns
+                if generated_pattern != "UNKNOWN":
+                    GeneratedPattern.objects.update_or_create(
+                        filename=filename,
+                        defaults={
+                            "client": client,
+                            "regex": generated_pattern
+                        }
+                    )
+        # if file_id:
+        #     file_record = TableLog.objects.get(id=file_id)
+        #     filename = file_record.filename
+        #     client = file_record.client
+
+        #     generated_pattern = generate_pattern(filename)
+
+        #     layout_id = find_layout_id(generated_pattern)
+
+        #     if generated_pattern:
+        #         GeneratedPattern.objects.update_or_create(
+        #             filename=filename,
+        #             defaults={
+        #                 "client": client,
+        #                 "regex": generated_pattern
+        #             }
+        #         )
 
     return render(request, "generate.html", {
         "files": files,
