@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pattern Generator</title>
+    <title>Pattern & Layout Finder</title>
 </head>
 <body>
+    <h1>Pattern & Layout Finder</h1>
 
-<h2>Pattern & Layout Finder</h2>
+    <form method="POST">
+        {% csrf_token %}
 
-<form method="POST">
-    {% csrf_token %}
+        <label for="file_id">Select File:</label>
+        <select name="file_id" id="file_id">
+            <option value="">-- Select from table --</option>
+            {% for file in files %}
+                <option value="{{ file.id }}">{{ file.filename }}</option>
+            {% endfor %}
+        </select>
 
-    <label>Select File:</label>
-    <select name="file_id">
-        {% for f in files %}
-            <option value="{{ f.id }}">
-                {{ f.filename }}
-            </option>
-        {% endfor %}
-    </select>
+        <br><br>
 
-    <br><br>
-    <button type="submit">Generate</button>
-</form>
+        <label for="manual_filename">Search file:</label>
+        <input type="text" name="manual_filename" id="manual_filename" style="width: 500px;"
+               placeholder="Type filename here">
 
-<hr>
+        <br><br>
 
-{% if generated_pattern %}
-<hr>
+        <button type="submit">Generate</button>
+    </form>
 
-<h3>Output:</h3>
+    {% if error_message %}
+    <p style="color: red;"><strong>{{ error_message }}</strong></p>
+    {% endif %}
 
-<div style="border:1px solid #ccc; padding:15px; width:60%; background:#f9f9f9;">
+    <hr>
+    <h2>Output:</h2>
 
-    <p><strong>Filename:</strong><br>
-    {{ selected_filename }}</p>
+    <div style="border:1px solid #ccc; padding:15px; width:95%;">
+        <p><strong>Filename:</strong><br>{{ filename|default:"UNKNOWN" }}</p>
 
-    <p><strong>Generated Pattern:</strong><br>
-    {{ generated_pattern }}</p>
+        <p><strong>Generated Pattern:</strong><br>{{ generated_pattern|default:"UNKNOWN" }}</p>
 
-    <p><strong>Layout ID:</strong><br>
-    {{ layout_id }}</p>
-
-</div>
-
-{% endif %}
-
+        <p><strong>Layout ID:</strong><br>{{ layout_id|default:"UNKNOWN" }}</p>
+    </div>
 </body>
 </html>
